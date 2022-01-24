@@ -1,0 +1,29 @@
+### PyCharm ###
+.idea/
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+**/__pycache__/
+
+
+# Unit Test #
+*.zip
+tests/blender/**
+tests/blender/*.dmg
+!tests/blender/.keep
+
+### Blender ###
+*.blend1
+
+### Unreal ###
+tests/unreal_sample/DerivedDataCache
+tests/unreal_sample/Intermediate
+tests/unreal_sample/Saved
+
+# Secret file
+**/token.txt
+
+# Virtual Environment
+tests/venv
+venv/
