@@ -7,10 +7,14 @@ from utils.container import clear_container_test
 from utils.misc import ordering_test_file, generate_archive
 
 
-def launch_unit_test(tag: str, test: list = None):
+def launch_unit_test(tag: str, test: [str] = None):
     """Start all Unit Test, Blender and Unreal if needed"""
-    test = ordering_test_file()
-    b3d_launch_blender_test(test=test['blender'], tag=tag)
+    # Ordering Unit test Blender/Unreal
+    if test is None:
+        test = ordering_test_file()
+        test = test['blender']
+
+    b3d_launch_blender_test(test=test, tag=tag)
 
 
 if __name__ == '__main__':
