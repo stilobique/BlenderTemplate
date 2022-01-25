@@ -1,0 +1,16 @@
+name: Test and Package feature branchs
+
+on:
+  push:
+    branches-ignore:
+      [main, develop]
+
+jobs:
+  unit-test:
+    uses: Moderlab-Production/BlenderObjectType/.github/workflows/unit_test.yml@develop
+
+  generate-package:
+    uses: Moderlab-Production/BlenderObjectType/.github/workflows/package.yml@develop
+    with:
+      num_version: '0.0.0'
+      name_version: 'v0.0.0'

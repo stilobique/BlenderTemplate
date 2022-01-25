@@ -1,0 +1,28 @@
+name: Unit Test
+
+on:
+  workflow_call:
+  push:
+    branches-ignore:
+      - main
+      - develop
+
+
+jobs:
+  unit-test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Setup python to execute all Unit Test
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r tests/requirements.txt
+
+      - name: Start all Unit Test
+        run: |
+          cd ${{ github.workspace }}
+          python tests/main.py

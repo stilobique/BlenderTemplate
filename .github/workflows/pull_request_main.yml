@@ -1,0 +1,95 @@
+name: Create addon release
+
+on:
+  pull_request:
+    branches:
+      [main]
+    types:
+      [edited, synchronize, closed]
+
+
+jobs:
+  init-release-data:
+    name: Initialize all data about the package
+    runs-on: ubuntu-latest
+    outputs:
+      version_type: ${{ steps.bump_setup.outputs.type }}
+      version_number: ${{ steps.semantic_setup.outputs.version }}
+      version_draft: ${{ steps.semantic_setup.outputs.draft }}
+      version_name: v${{ steps.semantic_setup.outputs.version }}
+    steps:
+      - name: Setup bump release
+        id: bump_setup
+        run: |
+          if [ ${{ contains(github.event.pull_request.labels.*.name, 'release:major') }} == true ]; then
+            echo "::set-output name=type::major"
+          elif [ ${{ contains(github.event.pull_request.labels.*.name, 'release:minor') }} == true ]; then
+            echo "::set-output name=type::minor"
+          else
+            echo "::set-output name=type::patch"
+          fi
+
+      # Config the release number
+      # - get tag with sync PR
+      # - publish the release if the PR is closed
+      - name: Get the Semantic tag Version
+        id: get_semantic_setup
+        uses: oprypin/find-latest-tag@v1.1.0
+        with:
+          repository: Moderlab-Production/BlenderObjectType
+          releases-only: true
+          prefix: 'v'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: From all use case, get the Tag version
+        id: semantic_setup
+        run: |
+          tag=${{ steps.get_semantic_setup.outputs.tag }}
+          if [ "${{ github.event.action }}" == "closed" ]; then
+            echo "::set-output name=version::${tag:1}"
+            echo "::set-output name=draft::false"
+          else
+            echo "::set-output name=version::${tag:1}"
+            echo "::set-output name=draft::true"
+          fi
+
+  unit-test:
+    uses: Moderlab-Production/BlenderObjectType/.github/workflows/unit_test.yml@develop
+
+  release-package:
+    needs:
+      - init-release-data
+    uses: Moderlab-Production/BlenderObjectType/.github/workflows/package.yml@develop
+    with:
+      num_version: ${{ needs.init-release-data.outputs.version_number }}
+      name_version: ${{ needs.init-release-data.outputs.version_name }}
+
+  publish-release:
+    name: Publish the Github Release
+    needs:
+      - unit-test
+      - init-release-data
+      - release-package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug the release
+        uses: tubone24/update_release@v1.3.1
+        if: ${{ needs.init-release-data.outputs.version_draft == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ needs.init-release-data.outputs.version_name }}
+        with:
+          release_name: ${{ needs.init-release-data.outputs.version_name }}
+          body: ''
+          prerelease: ${{ needs.init-release-data.outputs.version_draft }}
+
+      - name: Publish the release
+        uses: tubone24/update_release@v1.3.1
+        if: ${{ needs.init-release-data.outputs.version_draft == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ needs.init-release-data.outputs.version_name }}
+        with:
+          release_name: ${{ needs.init-release-data.outputs.version_name }}
+          body: ''
+          prerelease: ${{ needs.init-release-data.outputs.version_draft }}
