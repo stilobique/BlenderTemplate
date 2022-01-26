@@ -21,8 +21,8 @@ on:
         default: 'false'
 
 env:
-  APP_NAME: 'moderlab_type'
-  NAME_PACKAGE: 'moderlab_type.zip'
+  APP_NAME: 'moderlab_addon'
+  NAME_PACKAGE: 'moderlab_addon.zip'
   PATH_RELEASE: ${{ github.workspace }}\releases
 
 
