@@ -63,6 +63,7 @@ jobs:
     with:
       num_version: ${{ needs.init-release-data.outputs.version_number }}
       name_version: ${{ needs.init-release-data.outputs.version_name }}
+      draft_version: ${{ needs.init-release-data.outputs.version_draft }}
 
   publish-release:
     name: Publish the Github Release
