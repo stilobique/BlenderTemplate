@@ -18,7 +18,7 @@ on:
         description: 'Info about the release, publish or a draft'
         type: string
         required: true
-        default: "false"
+        default: 'false'
 
 env:
   APP_NAME: 'moderlab_type'
@@ -36,16 +36,19 @@ jobs:
 
       # Update the bl info version, update the init file and push if needed
       - name: Change version number in the bl info addon data
-        run: python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ env.APP_NAME }}
+        run: |
+          echo 'Debug this data : "${{ inputs.draft_version }}"'
+          python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ env.APP_NAME }}
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
-        if: ${{ inputs.draft_version }}
+        if: ${{ inputs.draft_version == false }}
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           author_name: Moderlab
           author_email: a.vaillant.moderlab@gmail.com
           message: '[Bot] Bump to ${{ inputs.num_version }} version.'
+          branch: develop
           force: true
 
       # Make an archive with the plugin source only
