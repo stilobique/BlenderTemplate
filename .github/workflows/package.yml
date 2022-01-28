@@ -54,8 +54,8 @@ jobs:
       # Make an archive with the plugin source only
       - name: Create zip archive release
         run: |
-          cd '${{ github.workspace }}/${{ env.APP_NAME }}'
-          zip -r '${{ github.workspace }}/releases/${{ env.NAME_PACKAGE }}' *
+          cd '${{ github.workspace }}'
+          zip -r '${{ github.workspace }}/releases/${{ env.NAME_PACKAGE }}' ${{ env.APP_NAME }}
 
       - uses: actions/upload-artifact@v2
         with:
