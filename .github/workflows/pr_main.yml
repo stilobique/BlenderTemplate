@@ -37,7 +37,7 @@ jobs:
         id: get_semantic_setup
         uses: oprypin/find-latest-tag@v1.1.0
         with:
-          repository: Moderlab-Production/BlenderTemplate
+          repository: ${{ github.repository }}
           releases-only: true
           prefix: 'v'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -55,12 +55,12 @@ jobs:
           fi
 
   unit-test:
-    uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@develop
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
 
   release-package:
     needs:
       - init-release-data
-    uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@develop
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
     with:
       num_version: ${{ needs.init-release-data.outputs.version_number }}
       name_version: ${{ needs.init-release-data.outputs.version_name }}

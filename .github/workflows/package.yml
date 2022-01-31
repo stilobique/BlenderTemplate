@@ -21,8 +21,8 @@ on:
         default: 'false'
 
 env:
-  APP_NAME: 'moderlab_addon'
-  NAME_PACKAGE: 'moderlab_addon.zip'
+  APP_NAME: 'moderlab_type'
+  NAME_PACKAGE: 'moderlab_type.zip'
   PATH_RELEASE: ${{ github.workspace }}\releases
 
 
@@ -36,9 +36,7 @@ jobs:
 
       # Update the bl info version, update the init file and push if needed
       - name: Change version number in the bl info addon data
-        run: |
-          echo 'Debug this data : "${{ inputs.draft_version }}"'
-          python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ env.APP_NAME }}
+        run: python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ env.APP_NAME }}
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
