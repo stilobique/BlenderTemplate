@@ -26,7 +26,7 @@ if __name__ == '__main__':
     clear_container_test(tag=docker_tag)
 
     # Prepare Blender and Unreal dependency
-    generate_archive(archives, 'blender-folder')
+    generate_archive(archives, 'blender_addon_folder')
 
     # Generate Unit Test, a specific call or execute all Unit Test
     test_list = None
