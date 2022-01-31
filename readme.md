@@ -17,3 +17,6 @@ The Github Workflow (CI chain) request some update with each new repository :
 
 # Unit Test
 All unit test call the blender docker [stilobique/blender:latest](https://hub.docker.com/repository/docker/stilobique/blender).
+
+#### Blender addon dependency
+With all unit test, if your addon request some dependency, add the repo inside the list in `blender_addon.py` and `blender.py`. This system are not perfect and need to be improved.
