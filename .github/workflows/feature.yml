@@ -5,12 +5,13 @@ on:
     branches-ignore:
       [main, develop]
 
+
 jobs:
   unit-test:
-    uses: Moderlab-Production/BlenderObjectType/.github/workflows/unit_test.yml@develop
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
 
   generate-package:
-    uses: Moderlab-Production/BlenderObjectType/.github/workflows/package.yml@develop
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
     with:
       num_version: '0.0.0'
       name_version: 'v0.0.0'

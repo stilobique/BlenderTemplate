@@ -7,6 +7,7 @@ on:
     types:
       [opened]
 
+
 jobs:
   create-release:
     name: Create a new release
@@ -39,3 +40,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
           tag: 'v${{ steps.semantic_setup.outputs.version }}'
+
+  pull-request-ci:
+    name: Start all pull request CI jobs
+    needs:
+      - create-release
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/pr_main.yml@main
