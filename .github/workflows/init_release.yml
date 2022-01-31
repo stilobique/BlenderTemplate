@@ -1,19 +1,18 @@
 name: Create base release
 
 on:
-  pull_request:
-    branches:
-      [main]
-    types:
-      [opened]
+  workflow_call:
 
 
 jobs:
-  create-release:
-    name: Create a new release
+  init-release-data:
+    name: Initialize all data about the package
     runs-on: ubuntu-latest
     outputs:
       version_type: ${{ steps.bump_setup.outputs.type }}
+      version_number: ${{ steps.semantic_setup.outputs.version }}
+      version_draft: ${{ steps.semantic_setup.outputs.draft }}
+      version_name: v${{ steps.semantic_setup.outputs.version }}
     steps:
       - name: Setup bump release
         id: bump_setup
@@ -25,9 +24,15 @@ jobs:
           else
             echo "::set-output name=type::patch"
           fi
+          
+          echo "debug event : ${{ github.event.pull_request.opened == true }}"
+          echo "debug event : ${{ github.event.pull_request.opened == 'true' }}"
+          echo "debug event : ${{ github.event.pull_request.opened }}"
+          echo "debug event : ${{ github.event.action == 'opened' }}"
 
       - name: Setup a new Semantic Version
-        id: semantic_setup
+        id: new_semantic_setup
+        if: ${{ github.event.action == 'opened' }}
         uses: zwaldowski/semver-release-action@v2
         with:
           bump: ${{ steps.bump_setup.outputs.type }}
@@ -39,10 +44,28 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
-          tag: 'v${{ steps.semantic_setup.outputs.version }}'
+          tag: 'v${{ steps.new_semantic_setup.outputs.version }}'
 
-  pull-request-ci:
-    name: Start all pull request CI jobs
-    needs:
-      - create-release
-    uses: Moderlab-Production/BlenderTemplate/.github/workflows/pr_main.yml@main
+      # Config the release number
+      # - get tag with sync PR
+      # - publish the release if the PR is closed
+      - name: Get the Semantic tag Version
+        id: get_semantic_setup
+        uses: oprypin/find-latest-tag@v1.1.0
+        with:
+          repository: ${{ github.repository }}
+          releases-only: true
+          prefix: 'v'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: From all use case, get the Tag version
+        id: semantic_setup
+        run: |
+          tag=${{ steps.get_semantic_setup.outputs.tag }}
+          if [ "${{ github.event.action }}" == "closed" ]; then
+            echo "::set-output name=version::${tag:1}"
+            echo "::set-output name=draft::false"
+          else
+            echo "::set-output name=version::${tag:1}"
+            echo "::set-output name=draft::true"
+          fi
