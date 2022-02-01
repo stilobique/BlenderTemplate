@@ -12,12 +12,22 @@ on:
 jobs:
   init-release-data:
     name: Initialize all data about the package
-    uses: Moderlab-Production/BlenderTemplate/.github/workflows/init_release.yml@main
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/initialyse_data.yml@main
+
+  prepare-first-release:
+    name: Make the pre-release
+    needs:
+      - init-release-data
+    if: ${{ github.event.action == 'opened' }}
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/generate_release.yml@main
+    with:
+      bump_version: ${{ needs.init-release-data.outputs.version_type }}
 
   unit-test:
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
 
   release-package:
+    name: Generate archive package
     needs:
       - init-release-data
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
