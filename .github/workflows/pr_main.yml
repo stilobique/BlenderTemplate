@@ -1,7 +1,6 @@
 name: Create addon release
 
 on:
-  workflow_call:
   pull_request:
     branches:
       [main]
@@ -27,8 +26,7 @@ jobs:
 
   prepare-first-release:
     name: Make the pre-release
-    needs:
-      - init-release-data
+    needs: init-release-data
     if: ${{ github.event.action == 'opened' }}
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/generate_release.yml@main
     with:
@@ -40,7 +38,8 @@ jobs:
   release-package:
     name: Generate archive package
     needs:
-      - init-release-data
+      - prepare-first-release
+      - unit-test
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
     with:
       num_version: ${{ needs.init-release-data.outputs.version_number }}
@@ -49,10 +48,7 @@ jobs:
 
   publish-release:
     name: Publish the Github Release
-    needs:
-      - unit-test
-      - init-release-data
-      - release-package
+    needs: release-package
     runs-on: ubuntu-latest
     steps:
       - name: Debug the release
