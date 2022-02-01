@@ -43,7 +43,7 @@ jobs:
         id: new_semantic_setup
         uses: zwaldowski/semver-release-action@v2
         with:
-          bump: ${{ inputs.num_version }}
+          bump: ${{ steps.bump_setup.outputs.type }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
 
