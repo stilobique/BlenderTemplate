@@ -28,7 +28,7 @@ jobs:
       version_type: ${{ steps.bump_setup.outputs.type }}
       version_number: ${{ steps.semantic_setup.outputs.version }}
       version_draft: ${{ steps.semantic_setup.outputs.draft }}
-      version_name: v${{ steps.semantic_setup.outputs.version }}
+      version_name: ${{ steps.semantic_setup.outputs.version }}
     steps:
       - name: Setup bump release
         id: bump_setup
