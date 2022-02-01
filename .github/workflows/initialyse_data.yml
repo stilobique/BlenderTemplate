@@ -18,10 +18,6 @@ on:
 
 jobs:
   init-release-data:
-    # Generate some output :
-    #   - Tag number
-    #   - Release draft type
-
     name: Initialize all data about the package
     runs-on: ubuntu-latest
     outputs:
@@ -76,8 +72,3 @@ jobs:
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::true"
           fi
-
-      - name: Debug Data
-        run: |
-          echo "show the bump config"
-          echo "${{ steps.bump_setup.outputs.type }}"
