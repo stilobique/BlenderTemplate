@@ -7,13 +7,18 @@ on:
         description: 'The bump release'
         type: string
         required: true
-        default: 'false'
+        default: 'patch'
 
 jobs:
   init-release-data:
     name: Generate data about the release
     runs-on: ubuntu-latest
     steps:
+      - name: Debug Data
+        run: |
+          echo "show the bump config"
+          echo ${{ inputs.bump_version }}
+
       - name: Setup a new Semantic Version
         id: new_semantic_setup
         uses: zwaldowski/semver-release-action@v2
