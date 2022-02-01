@@ -55,20 +55,9 @@ jobs:
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::false"
           elif [ "${{ github.event.action }}" == "opened" ]; then
-            echo "::set-output name=version::${{ new_semantic_setup.outputs.version }}"
+            echo "::set-output name=version::${{ step.new_semantic_setup.outputs.version }}"
             echo "::set-output name=draft::true"
           else
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::true"
           fi
-
-      - name: Debug all Data
-        run: |
-          echo "Show version Type"
-          echo ${{ init-release-data.outputs.version_type }}
-          echo "Show version number"
-          echo ${{ init-release-data.outputs.version_number }}
-          echo "Show version draft"
-          echo ${{ init-release-data.outputs.version_draft }}
-          echo "Show version name"
-          echo ${{ init-release-data.outputs.version_name }}
