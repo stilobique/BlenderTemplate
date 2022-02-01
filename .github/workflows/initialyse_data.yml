@@ -13,7 +13,7 @@ on:
         description: "Boolean if the release are draft or not"
         value: ${{ jobs.init-release-data.outputs.version_draft }}
       version_name:
-        decription: "Number version with a prefix v."
+        description: "Number version with a prefix v."
         value: v${{ jobs.init-release-data.outputs.version_name }}
 
 jobs:
