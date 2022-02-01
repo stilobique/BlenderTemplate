@@ -23,7 +23,6 @@ on:
 env:
   APP_NAME: 'moderlab_type'
   NAME_PACKAGE: 'moderlab_type.zip'
-  PATH_RELEASE: ${{ github.workspace }}\releases
 
 
 # Execute this command
@@ -37,6 +36,14 @@ jobs:
       # Update the bl info version, update the init file and push if needed
       - name: Change version number in the bl info addon data
         run: python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ env.APP_NAME }}
+
+      # Get the local folder name
+      - name: Setup package name
+        run: |
+          echo "With python, get a folder name"
+          python '.github/package.py'
+          echo "set with output value"
+          echo "::set-output name=type::$(python .github/package.py)"
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
