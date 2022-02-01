@@ -2,7 +2,11 @@ name: Create base release
 
 on:
   workflow_call:
-
+    outputs:
+      version_type: ${{ jobs.init-release-data.outputs.version_type }}
+      version_number: ${{ jobs.init-release-data.outputs.version }}
+      version_draft: ${{ jobs.init-release-data.outputs.draft }}
+      version_name: v${{ jobs.init-release-data.outputs.version }}
 
 jobs:
   init-release-data:
@@ -52,12 +56,15 @@ jobs:
         run: |
           tag=${{ steps.get_semantic_setup.outputs.tag }}
           if [ "${{ github.event.action }}" == "closed" ]; then
+            echo "Close the pull request, get the previous tag"
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::false"
           elif [ "${{ github.event.action }}" == "opened" ]; then
+            echo "Create a new tag from a new pull request"
             echo "::set-output name=version::${{ steps.new_semantic_setup.outputs.version }}"
             echo "::set-output name=draft::true"
           else
+            echo "Update the pull request, keep the tag value"
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::true"
           fi
@@ -65,4 +72,4 @@ jobs:
       - name: Debug Data
         run: |
           echo "show the bump config"
-          echo "${{ steps.bump_setup.outputs.type }}" | "${{ init-release-data.outputs.version_type }}"
+          echo "${{ steps.bump_setup.outputs.type }}"
