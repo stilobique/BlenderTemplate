@@ -14,6 +14,17 @@ jobs:
     name: Initialize all data about the package
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/initialyse_data.yml@main
 
+  - name: Debug all Data
+    run: |
+      echo "Show version Type"
+      echo ${{ init-release-data.outputs.version_type }}
+      echo "Show version number"
+      echo ${{ init-release-data.outputs.version_number }}
+      echo "Show version draft"
+      echo ${{ init-release-data.outputs.version_draft }}
+      echo "Show version name"
+      echo ${{ init-release-data.outputs.version_name }}
+
   prepare-first-release:
     name: Make the pre-release
     needs:
