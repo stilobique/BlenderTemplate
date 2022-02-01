@@ -65,4 +65,4 @@ jobs:
       - name: Debug Data
         run: |
           echo "show the bump config"
-          echo ${{ steps.bump_setup.outputs.type }}
+          echo "${{ steps.bump_setup.outputs.type }}" | "${{ init-release-data.outputs.version_type }}"
