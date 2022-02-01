@@ -13,17 +13,6 @@ jobs:
     name: Initialize all data about the package
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/initialyse_data.yml@main
 
-  - name: Debug all Data
-    run: |
-      echo "Show version Type"
-      echo ${{ init-release-data.outputs.version_type }}
-      echo "Show version number"
-      echo ${{ init-release-data.outputs.version_number }}
-      echo "Show version draft"
-      echo ${{ init-release-data.outputs.version_draft }}
-      echo "Show version name"
-      echo ${{ init-release-data.outputs.version_name }}
-
   prepare-first-release:
     name: Make the pre-release
     needs: init-release-data
@@ -38,6 +27,7 @@ jobs:
   release-package:
     name: Generate archive package
     needs:
+      - init-release-data
       - prepare-first-release
       - unit-test
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
@@ -48,7 +38,9 @@ jobs:
 
   publish-release:
     name: Publish the Github Release
-    needs: release-package
+    needs:
+      - init-release-data
+      - release-package
     runs-on: ubuntu-latest
     steps:
       - name: Debug the release
