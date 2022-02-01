@@ -3,10 +3,18 @@ name: Create base release
 on:
   workflow_call:
     outputs:
-      version_type: ${{ jobs.init-release-data.outputs.version_type }}
-      version_number: ${{ jobs.init-release-data.outputs.version }}
-      version_draft: ${{ jobs.init-release-data.outputs.draft }}
-      version_name: v${{ jobs.init-release-data.outputs.version }}
+      version_type:
+        description: "Give the bump type for this release"
+        value: ${{ jobs.init-release-data.outputs.version_type }}
+      version_number:
+        description: "String about the tag version, integer only"
+        value: ${{ jobs.init-release-data.outputs.version_number }}
+      version_draft:
+        description: "Boolean if the release are draft or not"
+        value: ${{ jobs.init-release-data.outputs.version_draft }}
+      version_name:
+        decription: "Number version with a prefix v."
+        value: v${{ jobs.init-release-data.outputs.version_name }}
 
 jobs:
   init-release-data:
