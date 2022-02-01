@@ -55,7 +55,7 @@ jobs:
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::false"
           elif [ "${{ github.event.action }}" == "opened" ]; then
-            echo "::set-output name=version::${{ step.new_semantic_setup.outputs.version }}"
+            echo "::set-output name=version::${{ steps.new_semantic_setup.outputs.version }}"
             echo "::set-output name=draft::true"
           else
             echo "::set-output name=version::${tag:1}"
