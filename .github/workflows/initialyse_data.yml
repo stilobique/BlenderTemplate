@@ -6,6 +6,10 @@ on:
 
 jobs:
   init-release-data:
+    # Generate some output :
+    #   - Tag number
+    #   - Release draft type
+
     name: Initialize all data about the package
     runs-on: ubuntu-latest
     outputs:
@@ -24,31 +28,7 @@ jobs:
           else
             echo "::set-output name=type::patch"
           fi
-          
-          echo "debug event : ${{ github.event.pull_request.opened == true }}"
-          echo "debug event : ${{ github.event.pull_request.opened == 'true' }}"
-          echo "debug event : ${{ github.event.pull_request.opened }}"
-          echo "debug event : ${{ github.event.action == 'opened' }}"
 
-      - name: Setup a new Semantic Version
-        id: new_semantic_setup
-        if: ${{ github.event.action == 'opened' }}
-        uses: zwaldowski/semver-release-action@v2
-        with:
-          bump: ${{ steps.bump_setup.outputs.type }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          dry_run: true
-
-      - name: Prepare the release
-        uses: ncipollo/release-action@v1.8.10
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: true
-          tag: 'v${{ steps.new_semantic_setup.outputs.version }}'
-
-      # Config the release number
-      # - get tag with sync PR
-      # - publish the release if the PR is closed
       - name: Get the Semantic tag Version
         id: get_semantic_setup
         uses: oprypin/find-latest-tag@v1.1.0
@@ -58,6 +38,15 @@ jobs:
           prefix: 'v'
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Increment if a new release are needed to generated
+        if: ${{ github.event.action == 'opened' }}
+        id: new_semantic_setup
+        uses: zwaldowski/semver-release-action@v2
+        with:
+          bump: ${{ inputs.num_version }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+
       - name: From all use case, get the Tag version
         id: semantic_setup
         run: |
@@ -65,7 +54,21 @@ jobs:
           if [ "${{ github.event.action }}" == "closed" ]; then
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::false"
+          elif [ "${{ github.event.action }}" == "opened" ]; then
+            echo "::set-output name=version::${{ new_semantic_setup.outputs.version }}"
+            echo "::set-output name=draft::true"
           else
             echo "::set-output name=version::${tag:1}"
             echo "::set-output name=draft::true"
           fi
+
+      - name: Debug all Data
+        run: |
+          echo "Show version Type"
+          echo ${{ outputs.version_type }}
+          echo "Show version number"
+          echo ${{ outputs.version_number }}
+          echo "Show version draft"
+          echo ${{ outputs.version_draft }}
+          echo "Show version name"
+          echo ${{ outputs.version_name }}
