@@ -28,7 +28,6 @@ jobs:
     name: Generate archive package
     needs:
       - init-release-data
-      - prepare-first-release
       - unit-test
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
     with:
