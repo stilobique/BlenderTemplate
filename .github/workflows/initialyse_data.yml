@@ -65,10 +65,10 @@ jobs:
       - name: Debug all Data
         run: |
           echo "Show version Type"
-          echo ${{ outputs.version_type }}
+          echo ${{ init-release-data.outputs.version_type }}
           echo "Show version number"
-          echo ${{ outputs.version_number }}
+          echo ${{ init-release-data.outputs.version_number }}
           echo "Show version draft"
-          echo ${{ outputs.version_draft }}
+          echo ${{ init-release-data.outputs.version_draft }}
           echo "Show version name"
-          echo ${{ outputs.version_name }}
+          echo ${{ init-release-data.outputs.version_name }}
