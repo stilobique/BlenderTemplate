@@ -23,7 +23,6 @@ on:
 env:
   APP_NAME: 'moderlab_type'
   NAME_PACKAGE: 'moderlab_type.zip'
-  PATH_RELEASE: ${{ github.workspace }}\releases
 
 
 # Execute this command
