@@ -41,7 +41,7 @@ jobs:
           echo "With python, get a folder name"
           python '.github/package.py'
           name= python '.github/package.py'
-          echo "The folder name are ${python '.github/package.py}"
+          echo "The folder name are ${name}"
           echo "::set-output name=folder::${name}"
           archive='.github/package.py'.zip
           echo "::set-output name=package::${archive}"
