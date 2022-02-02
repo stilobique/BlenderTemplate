@@ -33,6 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
+      - name: "Set up python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
       # Update the bl info version, update the init file and push if needed
       - name: Change version number in the bl info addon data
         run: python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ env.APP_NAME }}
