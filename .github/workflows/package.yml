@@ -41,11 +41,10 @@ jobs:
       - name: Setup package name
         run: |
           echo "With python, get a folder name"
-          python '.github/package.py'
-          echo "set with output value"
           echo "Default env variable ${{env.APP_NAME}}"
-          echo "APP_NAME={$(python .github/package.py)}" >> $GITHUB_ENV
-          echo "NAME_PACKAGE={${{env.APP_NAME}}.zip}" >> $GITHUB_ENV
+          python '.github/package.py'
+#          echo "APP_NAME={$(python .github/package.py)}" >> $GITHUB_ENV
+#          echo "NAME_PACKAGE={${{env.APP_NAME}}.zip}" >> $GITHUB_ENV
           echo "show env variable app name ${{env.APP_NAME}}"
           echo "show env variable package ${{env.NAME_PACKAGE}}"
 

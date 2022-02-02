@@ -10,4 +10,7 @@ def get_folder_name():
 
 if __name__ == "__main__":
     name = get_folder_name()
-    # print(f'Show this value : {name}')
+
+    with open('$GITHUB_ENV', 'a') as f:
+        f.write(f'APP_NAME={name}')
+        f.write(f'NAME_PACKAGE={name}.zip')
