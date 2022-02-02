@@ -29,30 +29,17 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - name: "Set up python"
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      # Get the local folder name
-      - name: Setup package name
+      - name: Setup package variable
         id: folder
         run: |
-          echo "With python, get a folder name"
           python '.github/package.py'
-          name=$(python '.github/package.py')
-          echo "The folder name are ${name}"
-          echo "::set-output name=folder::${name}"
+          echo "::set-output name=folder::$(python '.github/package.py')"
           archive=$(python '.github/package.py').zip
-          echo "The archive name are ${archive}"
           echo "::set-output name=package::${archive}"
 
       # Update the bl info version, update the init file and push if needed
       - name: Change version number in the bl info addon data
-        run: |
-          echo "The folder name are ${{ steps.folder.outputs.folder }}"
-          echo "The tag used are ${{ inputs.num_version }}"
-          python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ steps.folder.outputs.folder }}
+        run: python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ steps.folder.outputs.folder }}
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
