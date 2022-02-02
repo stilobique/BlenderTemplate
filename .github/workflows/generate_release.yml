@@ -21,6 +21,7 @@ jobs:
 
       - name: Setup a new Semantic Version
         id: new_semantic_setup
+        if: ${{ github.event.action == 'opened' }}
         uses: zwaldowski/semver-release-action@v2
         with:
           bump: ${{ inputs.bump_version }}

@@ -16,7 +16,6 @@ jobs:
   prepare-first-release:
     name: Make the pre-release
     needs: init-release-data
-    if: ${{ github.event.action == 'opened' }}
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/generate_release.yml@main
     with:
       bump_version: ${{ needs.init-release-data.outputs.version_type }}
@@ -28,6 +27,7 @@ jobs:
     name: Generate archive package
     needs:
       - init-release-data
+      - prepare-first-release
       - unit-test
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
     with:
