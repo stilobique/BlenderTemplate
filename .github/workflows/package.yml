@@ -40,9 +40,9 @@ jobs:
         run: |
           echo "With python, get a folder name"
           python '.github/package.py'
-          name = echo python '.github/package.py'
-          archive = echo python '.github/package.py'.zip
+          name = python '.github/package.py'
           echo "::set-output name=folder::${name}"
+          archive = '.github/package.py'.zip
           echo "::set-output name=package::${archive}"
 
       # Update the bl info version, update the init file and push if needed
