@@ -43,7 +43,8 @@ jobs:
           name=$(python '.github/package.py')
           echo "The folder name are ${name}"
           echo "::set-output name=folder::${name}"
-          archive='.github/package.py'.zip
+          archive=$(python '.github/package.py').zip
+          echo "The archive name are ${archive}"
           echo "::set-output name=package::${archive}"
 
       # Update the bl info version, update the init file and push if needed
