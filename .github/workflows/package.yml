@@ -73,7 +73,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.folder.outputs.package }}
+          name: ${{ steps.folder.outputs.folder }}
           path: ${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}
 
       - name: Update the github release
