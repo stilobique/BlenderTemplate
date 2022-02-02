@@ -21,8 +21,8 @@ on:
         default: 'false'
 
 env:
-  APP_NAME: 'moderlab_type'
-  NAME_PACKAGE: 'moderlab_type.zip'
+  APP_NAME: 'addon_name'
+  NAME_PACKAGE: 'addon_name.zip'
 
 
 # Execute this command
@@ -44,8 +44,10 @@ jobs:
           python '.github/package.py'
           echo "set with output value"
           echo "Default env variable ${{env.APP_NAME}}"
-          echo "{$(python .github/package.py)}={value}" >> $GITHUB_ENV
-          echo "show env variable ${{env.APP_NAME}}"
+          echo "APP_NAME={$(python .github/package.py)}" >> $GITHUB_ENV
+          echo "NAME_PACKAGE={${{env.APP_NAME}}.zip}" >> $GITHUB_ENV
+          echo "show env variable app name ${{env.APP_NAME}}"
+          echo "show env variable package ${{env.NAME_PACKAGE}}"
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
