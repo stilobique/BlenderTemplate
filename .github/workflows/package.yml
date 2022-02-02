@@ -43,7 +43,9 @@ jobs:
           echo "With python, get a folder name"
           python '.github/package.py'
           echo "set with output value"
-          echo "::set-output name=type::$(python .github/package.py)"
+          echo "Default env variable ${{env.APP_NAME}}"
+          echo "{$(python .github/package.py)}={value}" >> $GITHUB_ENV
+          echo "show env variable ${{env.APP_NAME}}"
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
