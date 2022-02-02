@@ -43,8 +43,6 @@ jobs:
           echo "With python, get a folder name"
           echo "Default env variable ${{env.APP_NAME}}"
           python '.github/package.py'
-#          echo "APP_NAME={$(python .github/package.py)}" >> $GITHUB_ENV
-#          echo "NAME_PACKAGE={${{env.APP_NAME}}.zip}" >> $GITHUB_ENV
           echo "show env variable app name ${{env.APP_NAME}}"
           echo "show env variable package ${{env.NAME_PACKAGE}}"
 
