@@ -40,8 +40,8 @@ jobs:
         run: |
           echo "With python, get a folder name"
           python '.github/package.py'
-          echo "::set-output name=folder::$(echo python '.github/package.py')"
-          echo "::set-output name=package::$(echo python '.github/package.py'.zip)"
+          echo "::set-output name=folder::${{(echo python '.github/package.py')}}"
+          echo "::set-output name=package::${{(echo python '.github/package.py'.zip)}}"
 
       # Update the bl info version, update the init file and push if needed
       - name: Change version number in the bl info addon data
