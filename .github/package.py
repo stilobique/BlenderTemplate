@@ -10,3 +10,4 @@ def get_folder_name():
 
 if __name__ == "__main__":
     name = get_folder_name()
+    print(name)
