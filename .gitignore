@@ -1,5 +1,6 @@
 ### PyCharm ###
 .idea/
+.run/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
