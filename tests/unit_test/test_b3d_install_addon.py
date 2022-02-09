@@ -13,7 +13,7 @@ class ActivateAddon(unittest.TestCase):
     @staticmethod
     def get_folder_name():
         """Return the folder name to get the addon name we want activated"""
-        addon = glob.glob("/addon-moderlab/*/__init__.py", recursive=True)
+        addon = glob.glob("/addon_moderlab/*/__init__.py", recursive=True)
         return os.path.basename(os.path.dirname(addon[0]))
 
     def test_activate_addon(self):

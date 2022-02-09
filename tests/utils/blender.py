@@ -18,7 +18,7 @@ def b3d_launch_blender_test(client: docker = docker.from_env(), test: list = Non
         local_path = os.environ.get('GITHUB_WORKSPACE')
     else:
         local_path = os.getcwd()
-    container_folder = '/addon-moderlab'
+    container_folder = '/addon_moderlab'
     volume = [f'{local_path}:{container_folder}']
     image_name = tag
     if test is None:
