@@ -16,7 +16,6 @@ jobs:
   prepare-first-release:
     name: Make the pre-release
     needs: init-release-data
-    if: ${{ github.event.action == 'opened' }}
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/generate_release.yml@main
     with:
       bump_version: ${{ needs.init-release-data.outputs.version_type }}
@@ -28,6 +27,7 @@ jobs:
     name: Generate archive package
     needs:
       - init-release-data
+      - prepare-first-release
       - unit-test
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
     with:
@@ -42,20 +42,8 @@ jobs:
       - release-package
     runs-on: ubuntu-latest
     steps:
-      - name: Debug the release
+      - name: Update/Publish the release
         uses: tubone24/update_release@v1.3.1
-        if: ${{ needs.init-release-data.outputs.version_draft == 'true' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ needs.init-release-data.outputs.version_name }}
-        with:
-          release_name: ${{ needs.init-release-data.outputs.version_name }}
-          body: ''
-          prerelease: ${{ needs.init-release-data.outputs.version_draft }}
-
-      - name: Publish the release
-        uses: tubone24/update_release@v1.3.1
-        if: ${{ needs.init-release-data.outputs.version_draft == 'false' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ needs.init-release-data.outputs.version_name }}

@@ -20,10 +20,6 @@ on:
         required: true
         default: 'false'
 
-env:
-  APP_NAME: 'moderlab_type'
-  NAME_PACKAGE: 'moderlab_type.zip'
-
 
 # Execute this command
 jobs:
@@ -33,17 +29,15 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
+      - name: Setup package variable
+        id: folder
+        run: |
+          echo "::set-output name=folder::$(python '.github/package.py')"
+          echo "::set-output name=package::$(python '.github/package.py').zip"
+
       # Update the bl info version, update the init file and push if needed
       - name: Change version number in the bl info addon data
-        run: python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ env.APP_NAME }}
-
-      # Get the local folder name
-      - name: Setup package name
-        run: |
-          echo "With python, get a folder name"
-          python '.github/package.py'
-          echo "set with output value"
-          echo "::set-output name=type::$(python .github/package.py)"
+        run: python '.github/version.py' --tag=${{ inputs.num_version }} --name=${{ steps.folder.outputs.folder }}
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
@@ -60,18 +54,18 @@ jobs:
       - name: Create zip archive release
         run: |
           cd '${{ github.workspace }}'
-          zip -r '${{ github.workspace }}/releases/${{ env.NAME_PACKAGE }}' ${{ env.APP_NAME }}
+          zip -r '${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}' ${{ steps.folder.outputs.folder }}
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.NAME_PACKAGE }}
-          path: ${{ github.workspace }}/releases/${{ env.NAME_PACKAGE }}
+          name: ${{ steps.folder.outputs.folder }}
+          path: ${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}
 
       - name: Update the github release
         if: github.event_name == 'pull_request'
         uses: johnwbyrd/update-release@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: '${{ github.workspace }}/releases/${{ env.NAME_PACKAGE }}'
+          files: '${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}'
           release: ${{ inputs.name_version }}
           tag: ${{ inputs.name_version }}
