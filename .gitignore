@@ -1,5 +1,6 @@
 ### PyCharm ###
 .idea/
+.run/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -25,5 +26,5 @@ tests/unreal_sample/Saved
 **/token.txt
 
 # Virtual Environment
-tests/venv
+**/venv/**
 venv/
