@@ -31,12 +31,12 @@ def b3d_launch_blender_test(client: docker = docker.from_env(), test: list = Non
     try:
         for test in unit_test:
             print(f'Start this test : {test}')
-            command = [f"/bin/bash",
+            command = [f"/bin/sh",
                        f"{PurePosixPath(container_folder, 'tests', 'launch_test.sh')}",
                        f"{PurePosixPath(container_folder, 'tests', 'unit_test', test)}"]
 
             docker_test = client.containers.run(image_name, command=command, volumes=volume, privileged=True,
-                                                detach=True)
+                                                environment=[f'FOLDER_TEST={container_folder}'], detach=True, name=test)
             exit_docker = docker_test.wait()
             if exit_docker['StatusCode'] != 0:
                 print(f'Container error "{exit_docker["StatusCode"]}".\n\t'

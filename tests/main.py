@@ -43,6 +43,5 @@ if __name__ == '__main__':
     launch_unit_test(test=test_list, tag=docker_tag)
 
     # Clear archive file and container
-    clear_container_test(tag=docker_tag)
     for archive in archives:
         os.remove(Path(os.getcwd(), archive))
