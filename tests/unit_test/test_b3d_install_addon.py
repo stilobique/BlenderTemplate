@@ -7,9 +7,6 @@ import os
 class ActivateAddon(unittest.TestCase):
     """Activate the Blender addon"""
 
-    def setUp(self) -> None:
-        pass
-
     @staticmethod
     def get_folder_name():
         """Return the folder name to get the addon name we want activated"""
