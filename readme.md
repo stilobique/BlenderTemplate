@@ -15,3 +15,5 @@ All unit tests call docker image [stilobique/blender:latest](https://hub.docker.
 
 # Addons/Plugins dependency
 Update json file `tests/dependency.json` with name, archive and repository Github path.
+
+> ⛔ The `moderlab_plugin` need to be on last entry.

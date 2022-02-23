@@ -1,8 +1,8 @@
 {
   "blender": {
-    "moderlab_plugin": ["moderlab_plugin.zip", "Moderlab-Production/BlenderPlugin"],
     "moderlab_type": ["moderlab_type.zip", "Moderlab-Production/BlenderObjectType"],
-    "moderlab_pie": ["moderlab_plugin.zip", "Moderlab-Production/BlenderPieMenu"]
+    "moderlab_pie": ["moderlab_plugin.zip", "Moderlab-Production/BlenderPieMenu"],
+    "moderlab_plugin": ["moderlab_plugin.zip", "Moderlab-Production/BlenderPlugin"]
   },
   "unreal": {
     "unreal-pipeline": ["unreal-moderlab-pipeline.zip", "Moderlab-Production/UnrealPipeline"],
