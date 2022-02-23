@@ -13,5 +13,5 @@ Update the file "tests/main.py", line 29, set your addon name.
 # Unit Test
 All unit tests call docker image [stilobique/blender:latest](https://hub.docker.com/repository/docker/stilobique/blender).
 
-#### Blender addon dependency
-With all unit test, if your addon request some dependency, add the repo inside the list in `blender_addon.py` and `blender.py`. This system are not perfect and need to be improved.
+# Addons/Plugins dependency
+Update json file `tests/dependency.json` with name, archive and repository Github path.
