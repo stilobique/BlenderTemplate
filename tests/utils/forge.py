@@ -14,6 +14,7 @@ def read_token():
 
 
 def get_release_file(filename: str, repo: str):
+    """Download from Github the latest release files"""
     g = Github(read_token())
     repository = g.get_repo(repo)
     latest = repository.get_latest_release()
