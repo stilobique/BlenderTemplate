@@ -1,4 +1,5 @@
 ![Python](https://img.shields.io/badge/python-3.9-sucess)
+![Blender](https://img.shields.io/badge/blender-3.0.0-sucess)
 
 # Blender Addon
 Template repository about blender addon. To used-it, clone this repository and rename the folder "blender_addon_folder" with your addon name.
