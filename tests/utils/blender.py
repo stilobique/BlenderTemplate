@@ -13,5 +13,9 @@ def get_b3d_addon_dependency(archive: list):
 
     b3d_dependency = data['blender']
     for key, value in b3d_dependency.items():
-        get_release_file(value[0], value[1])
+        if 'prerelease' in value:
+            prerelease = True
+        else:
+            prerelease = False
+        get_release_file(value[0], value[1], prerelease=prerelease)
         archive.append(value[0])
