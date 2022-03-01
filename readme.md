@@ -14,6 +14,7 @@ Update the file "tests/main.py", line 29, set your addon name.
 All unit tests call docker image [stilobique/blender:latest](https://hub.docker.com/repository/docker/stilobique/blender).
 
 # Addons/Plugins dependency
-Update json file `tests/dependency.json` with name, archive and repository Github path.
+Update json file `tests/dependency.json` with name, archive and repository Github path. Each entry requiert `archive 
+name`, the repository url path '{owner}/{repo}' and optional parameter if the release needed to be a prerelease.
 
 > ⛔ The `moderlab_plugin` need to be on last entry.

@@ -43,7 +43,6 @@ if __name__ == '__main__':
                 test_list = []
                 items = arg.replace('--test=', '').split(',')
                 for item in items:
-                    print('Launch this test : ', item)
                     test_list.append(item)
 
     # Launch Unit Test
