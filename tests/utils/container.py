@@ -6,6 +6,7 @@ from pathlib import PurePosixPath
 from docker.errors import DockerException
 from .issue import ContainerErrorTest
 from .properties import ContainerObject
+from .misc import read_token
 
 
 class VirtualMachine:
@@ -14,7 +15,9 @@ class VirtualMachine:
 
         self.container = container
         self.base_command = self.container.commands
+
         self.clear_containers()
+        self.pull_image()
 
     @staticmethod
     def start_docker():
@@ -26,6 +29,17 @@ class VirtualMachine:
         except DockerException:
             print('Docker isn\'t start or installed')
             exit(1)
+
+    def pull_image(self):
+        """Pull docker image"""
+        print(f'Pull this image : {self.container.image}')
+        if 'unreal' in self.container.label:
+            unreal_token = read_token('token_unreal.txt')
+            self.client.login(registry='https://ghcr.io', username='stilobique', password=unreal_token)
+
+        print('Start to PULL image')
+        self.client.images.pull(f'{self.container.image}:{self.container.tag}')
+        print('Image is pull')
 
     def clear_containers(self):
         """Look all docker containers, and remove-it if the task are used with the unit test."""

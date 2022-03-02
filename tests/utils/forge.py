@@ -1,16 +1,7 @@
-import os
 import requests
 
-from pathlib import Path
 from github import Github
-
-
-def read_token():
-    token_file = Path(os.getcwd(), 'tests', 'token.txt')
-    with open(token_file, 'r') as f:
-        token = f.read()
-
-    return token
+from misc import read_token
 
 
 def get_release_file(filename: str, repo: str, prerelease: bool = False):
