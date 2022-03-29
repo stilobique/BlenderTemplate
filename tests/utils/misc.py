@@ -4,16 +4,6 @@ import sys
 import zipfile
 
 from .issue import ArchiveFolderSourceNotFound
-from pathlib import Path
-
-
-def read_token(file: str = 'token.txt') -> str:
-    """From tests folder, return a token string, in a dedicated file"""
-    token_file = Path(os.getcwd(), 'tests', file)
-    with open(token_file, 'r') as f:
-        token = f.read()
-
-    return token
 
 
 def generate_archive(list_clean: list, name: str):
