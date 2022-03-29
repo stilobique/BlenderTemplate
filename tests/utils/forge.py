@@ -7,8 +7,12 @@ from github import Github
 
 def read_token():
     token_file = Path(os.getcwd(), 'tests', 'token.txt')
-    with open(token_file, 'r') as f:
-        token = f.read()
+    if token_file.exists():
+        with open(token_file, 'r') as f:
+            token = f.read()
+
+    else:
+        token = os.environ.get('token')
 
     return token
 
