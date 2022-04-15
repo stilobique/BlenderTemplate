@@ -11,7 +11,7 @@ from utils.properties import ContainerObject
 
 class Container(enum.Enum):
     """Enumerate about the Geometry node"""
-    BLENDER = ContainerObject(name='Blender', image='stilobique/blender')
+    BLENDER = ContainerObject(name='Blender', image='stilobique/blender', tag='3.1.2')
 
 
 def launch_unit_test(test: [str] = None):

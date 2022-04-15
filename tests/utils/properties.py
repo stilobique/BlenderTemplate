@@ -6,22 +6,28 @@ from pathlib import PurePosixPath
 class ContainerObject(object):
     """All data request to launch one dedicated container"""
 
-    def __init__(self, name: str, image: str):
+    def __init__(self, name: str, image: str, tag: str = None):
         self.label: str = name.lower()
         self.image: str = image
-        self.tag: str = self.set_tag()
+        self.tag: str = self.set_tag(tag)
         self.local_folder: str = ''
         self.volumes: list[str] = self.set_volumes()
         self.environments: list[str] = self.set_environments()
         self.commands: list[str] = self.set_commands()
         self.ref = f'{self.image}:{self.tag}'
 
-    def set_tag(self):
+    def set_tag(self, tag):
         """Determine the tag use with the docker image call"""
         if 'blender' in self.label:
-            return 'latest'
+            if tag is not None:
+                return tag
+            else:
+                return 'latest'
         elif 'unreal' in self.label:
-            return 'dev-slim-4.27.2'
+            if tag is not None:
+                return tag
+            else:
+                return 'dev-slim-4.27.2'
         else:
             return None
 
