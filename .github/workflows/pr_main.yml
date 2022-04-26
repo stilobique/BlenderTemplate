@@ -23,8 +23,8 @@ jobs:
   unit-test:
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
 
-  release-package:
-    name: Generate archive package
+  release-package-addon:
+    name: Generate archive package addon
     needs:
       - init-release-data
       - prepare-first-release
@@ -35,11 +35,22 @@ jobs:
       name_version: ${{ needs.init-release-data.outputs.version_name }}
       draft_version: ${{ needs.init-release-data.outputs.version_draft }}
 
+  release-package-preset:
+    name: Generate archive package preset
+    needs:
+      - init-release-data
+      - prepare-first-release
+      - unit-test
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/package_preset.yml@main
+    with:
+      name_version: ${{ needs.init-release-data.outputs.version_name }}
+
   publish-release:
     name: Publish the Github Release
     needs:
       - init-release-data
-      - release-package
+      - release-package-addon
+      - release-package-preset
     runs-on: ubuntu-latest
     steps:
       - name: Update/Publish the release

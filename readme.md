@@ -3,12 +3,14 @@
 
 # Blender Addon
 Template repository about blender addon. To used-it, clone this repository and rename the folder "blender_addon_folder" with your addon name.
-Update the file "tests/main.py", line 29, set your addon name.
+It's important to change some files :
+- [x] Update the file "tests/main.py", line 29, set your addon name.
+  ```python
+  # Prepare Blender and Unreal dependency
+  generate_archive(archives, 'blender_addon_folder')
+  ```
+- [x] You can remove the folder "presets" and disable the workflow (`.github/workflows/pr_main.yml`, line 38 and 53)
 
-```python
-    # Prepare Blender and Unreal dependency
-    generate_archive(archives, 'blender_addon_folder')
-```
 
 > ⚠️ It's more easy to use the "_" with your addon folder name, the "-" character can be problematic with python use. 
 
