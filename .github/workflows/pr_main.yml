@@ -29,7 +29,7 @@ jobs:
       - init-release-data
       - prepare-first-release
       - unit-test
-    uses: Moderlab-Production/BlenderTemplate/.github/workflows/package.yml@main
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/package_addon.yml@main
     with:
       num_version: ${{ needs.init-release-data.outputs.version_number }}
       name_version: ${{ needs.init-release-data.outputs.version_name }}
