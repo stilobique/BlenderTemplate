@@ -1,8 +1,5 @@
 name: Package Blender Plugin
 
-env:
-  preset: 'presets'
-
 # How to start the Github Action
 on:
   workflow_call:
@@ -25,13 +22,14 @@ jobs:
       - name: Setup package variable
         id: folder
         run: |
+          echo "::set-output name=folder::$(python '.github/package.py')_preset"
           echo "::set-output name=package::$(python '.github/package.py')_preset.zip"
 
       # Make an archive with the plugin source only
       - name: Create zip archive release
         run: |
           cd '${{ github.workspace }}'
-          zip -r '${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}' ${{ env.preset }}
+          zip -r '${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}' 'presets'
 
       - uses: actions/upload-artifact@v2
         with:
