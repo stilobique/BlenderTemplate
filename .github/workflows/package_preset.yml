@@ -1,0 +1,48 @@
+name: Package Blender Plugin
+
+env:
+  preset: 'presets'
+
+# How to start the Github Action
+on:
+  workflow_call:
+    inputs:
+      name_version:
+        description: 'The release name used'
+        type: string
+        required: true
+        default: 'v0.0.0'
+
+
+# Execute this command
+jobs:
+  make-archive:
+    name: Make Addon Package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Setup package variable
+        id: folder
+        run: |
+          echo "::set-output name=package::$(python '.github/package.py')_preset.zip"
+
+      # Make an archive with the plugin source only
+      - name: Create zip archive release
+        run: |
+          cd '${{ github.workspace }}'
+          zip -r '${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}' ${{ env.preset }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.folder.outputs.folder }}
+          path: ${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}
+
+      - name: Update the github release
+        if: github.event_name == 'pull_request'
+        uses: johnwbyrd/update-release@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: '${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}'
+          release: ${{ inputs.name_version }}
+          tag: ${{ inputs.name_version }}
