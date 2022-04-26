@@ -10,4 +10,6 @@ def get_folder_name():
 
 if __name__ == "__main__":
     name = get_folder_name()
+
+    # Keep the print value, it's request to output a string value available
     print(name)
