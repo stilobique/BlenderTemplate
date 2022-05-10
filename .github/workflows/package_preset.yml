@@ -28,8 +28,8 @@ jobs:
       # Make an archive with the plugin source only
       - name: Create zip archive release
         run: |
-          cd '${{ github.workspace }}'
-          zip -r '${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}' 'presets'
+          cd '${{ github.workspace }}/presets'
+          zip -r '../${{ github.workspace }}/releases/${{ steps.folder.outputs.package }}' '.'
 
       - uses: actions/upload-artifact@v2
         with:
