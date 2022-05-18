@@ -2,6 +2,7 @@ import os
 import bpy
 import pathlib
 import json
+import shutil
 
 
 def b3d_install_addon():
@@ -32,5 +33,25 @@ def b3d_install_addon():
         exit(1)
 
 
+def b3d_install_preset():
+    """If the folder preset exist, add all preset inside the moderlab dedicated folder"""
+    env_name = 'FOLDER_TEST'
+
+    try:
+        if not os.environ.get(env_name):
+            raise KeyError
+
+        path_preset = pathlib.Path(bpy.utils.preset_paths("")[0])
+        path_locally = pathlib.Path(os.environ.get(env_name), "presets")
+
+        if path_locally.exists():
+            shutil.copytree(path_locally, path_preset.joinpath("moderlab"))
+
+    except KeyError:
+        print(f'Env. "{env_name}" doesn\'t exist')
+        exit(1)
+
+
 if __name__ == '__main__':
     b3d_install_addon()
+    b3d_install_preset()
