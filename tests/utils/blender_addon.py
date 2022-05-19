@@ -6,6 +6,7 @@ import shutil
 
 
 def b3d_install_addon():
+    """Function to install addon with the blender locally set"""
     env_name = 'FOLDER_TEST'
     dependency = pathlib.Path(os.environ[env_name], "tests", "dependency.json")
     with open(dependency) as f:
@@ -45,7 +46,7 @@ def b3d_install_preset():
         path_locally = pathlib.Path(os.environ.get(env_name), "presets")
 
         if path_locally.exists():
-            shutil.copytree(path_locally, path_preset.joinpath("moderlab"))
+            shutil.copytree(path_locally, path_preset.joinpath("moderlab", "props"))
 
     except KeyError:
         print(f'Env. "{env_name}" doesn\'t exist')
