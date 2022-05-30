@@ -24,9 +24,9 @@ jobs:
             echo "::set-output name=type::patch"
           fi
 
-      - name: Increment a new release
-        id: new_semantic_setup
+      - name: Create new Semantic Version
         uses: zwaldowski/semver-release-action@v2
+        id: new_semantic_setup
         with:
           bump: ${{ steps.bump_setup.outputs.type }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
