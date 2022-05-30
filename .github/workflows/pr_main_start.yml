@@ -1,0 +1,36 @@
+name: Create addon release
+
+on:
+  pull_request:
+    branches:
+      [main]
+    types:
+      [opened]
+
+
+jobs:
+  init-release:
+    name: Generate the release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup bump release
+        id: bump_setup
+        run: |
+          if [ ${{ contains(github.event.pull_request.labels.*.name, 'release:major') }} == true ]; then
+            echo "::set-output name=type::major"
+          elif [ ${{ contains(github.event.pull_request.labels.*.name, 'release:minor') }} == true ]; then
+            echo "::set-output name=type::minor"
+          else
+            echo "::set-output name=type::patch"
+          fi
+
+      - name: Increment a new release
+        id: new_semantic_setup
+        uses: zwaldowski/semver-release-action@v2
+        with:
+          bump: ${{ steps.bump_setup.outputs.type }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+
+  unit-test:
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main

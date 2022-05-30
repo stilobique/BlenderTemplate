@@ -5,7 +5,7 @@ on:
     branches:
       [main]
     types:
-      [opened, edited, synchronize, closed]
+      [edited, synchronize, closed]
 
 
 jobs:
