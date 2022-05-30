@@ -13,13 +13,6 @@ jobs:
     name: Initialize all data about the package
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/initialize_data.yml@main
 
-  prepare-first-release:
-    name: Make the pre-release
-    needs: init-release-data
-    uses: Moderlab-Production/BlenderTemplate/.github/workflows/generate_release.yml@main
-    with:
-      bump_version: ${{ needs.init-release-data.outputs.version_type }}
-
   unit-test:
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
 
