@@ -31,6 +31,7 @@ jobs:
           bump: ${{ steps.bump_setup.outputs.type }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
+          prefix: v
 
   unit-test:
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
