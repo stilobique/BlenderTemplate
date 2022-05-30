@@ -20,7 +20,6 @@ jobs:
     name: Generate archive package addon
     needs:
       - init-release-data
-      - prepare-first-release
       - unit-test
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package_addon.yml@main
     with:
@@ -32,7 +31,6 @@ jobs:
     name: Generate archive package preset
     needs:
       - init-release-data
-      - prepare-first-release
       - unit-test
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package_preset.yml@main
     with:
