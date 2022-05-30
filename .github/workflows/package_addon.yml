@@ -41,11 +41,11 @@ jobs:
 
       - name: Commit the previous update
         uses: actions-js/push@v1.3
-        if: ${{ inputs.draft_version == 'false' }}
+        if: ${{ github.event.action }} == 'opened'
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           author_name: Moderlab
-          author_email: a.vaillant.moderlab@gmail.com
+          author_email: a.vaillant@moderlab.com
           message: '[Bot] Bump to ${{ inputs.num_version }} version.'
           branch: develop
           force: true

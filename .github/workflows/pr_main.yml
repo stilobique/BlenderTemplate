@@ -11,7 +11,7 @@ on:
 jobs:
   init-release-data:
     name: Initialize all data about the package
-    uses: Moderlab-Production/BlenderTemplate/.github/workflows/initialyse_data.yml@main
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/initialize_data.yml@main
 
   prepare-first-release:
     name: Make the pre-release
