@@ -24,6 +24,8 @@ jobs:
             echo "::set-output name=type::patch"
           fi
 
+      - uses: actions/checkout@main
+
       - name: Create new Semantic Version
         uses: zwaldowski/semver-release-action@v2
         id: new_semantic_setup
@@ -32,6 +34,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
           prefix: v
+
+      - name: Make the github release
+        uses: ncipollo/release-action@v1.10.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: true
+          tag: ${{ steps.new_semantic_setup.outputs.version_tag }}
 
   unit-test:
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
