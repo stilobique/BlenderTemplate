@@ -13,7 +13,7 @@ class SetupVersion:
 
     def update_addon_init(self):
         """Simple function to update the bl_info to set the Git tag release"""
-        regex, update = r'[0-9]{1,2}\, [0-9]{1,2}\, [0-9{1,2}]', ''
+        regex, update = r'[0-9]{1,2}\, [0-9]{1,2}\, [0-9]{1,2}', ''
 
         try:
             with open(self.addon_file, "r") as f:
