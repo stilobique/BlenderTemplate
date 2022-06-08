@@ -16,11 +16,15 @@ jobs:
   unit-test:
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/unit_test.yml@main
 
+  py-linter:
+    uses: Moderlab-Production/BlenderTemplate/.github/workflows/linter.yml@main
+
   release-package-addon:
     name: Generate archive package addon
     needs:
       - init-release-data
       - unit-test
+      - py-linter
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package_addon.yml@main
     with:
       num_version: ${{ needs.init-release-data.outputs.version_number }}
@@ -32,6 +36,7 @@ jobs:
     needs:
       - init-release-data
       - unit-test
+      - py-linter
     uses: Moderlab-Production/BlenderTemplate/.github/workflows/package_preset.yml@main
     with:
       name_version: ${{ needs.init-release-data.outputs.version_name }}

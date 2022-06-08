@@ -1,4 +1,4 @@
-name: Unit Test
+name: Pylinter
 
 on:
   workflow_call:
@@ -16,13 +16,15 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.9
-      - name: Install the linter app
+          python-version: 3.10
+      - name: Install the linter app and set package name
+        id: config
         run: |
+          echo "::set-output name=folder::$(python '.github/package.py')"
           python -m pip install --upgrade pip
           python -m pip install -r linter/requirements_linter.txt
 
       - name: Execute the pylinter
         run: |
           cd ${{ github.workspace }}
-          pylint --rcfile=${{ github.workspace }}/linter/.pylintrc
+          pylint --rcfile=${{ github.workspace }}/linter/.pylintrc ${{ steps.config.outputs.folder }} -E
