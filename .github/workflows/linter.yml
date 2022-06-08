@@ -23,8 +23,7 @@ jobs:
           echo "::set-output name=folder::$(python '.github/package.py')"
           python -m pip install --upgrade pip
           python -m pip install -r linter/requirements_linter.txt
-
-      - name: Execute the pylinter
+      - name: Execute Pylint
         run: |
           cd ${{ github.workspace }}
-          pylint --rcfile=${{ github.workspace }}/linter/.pylintrc ${{ steps.config.outputs.folder }} -E
+          python '${{ github.workspace }}/.github/lint.py' --module=${{ steps.config.outputs.folder }}
